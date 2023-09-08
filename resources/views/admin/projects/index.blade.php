@@ -15,6 +15,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Type</th>
+                    <th scope="col">Technologies</th>
                     <th scope="col">URL</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Updated At</th>
@@ -35,6 +36,15 @@
                             @else
                                 -
                             @endif
+                        </td>
+                        <td>
+                            @forelse ($project->technologies as $technology)
+                            <span class="rounded-pill" style="background-color: {{ $technology->color }}">
+                                {{ $technology->label }}
+                            </span>                                                 
+                            @empty
+                                -
+                            @endforelse
                         </td>
                         <td>{{ $project->github_url }}</td>
                         <td>{{ $project->created_at }}</td>

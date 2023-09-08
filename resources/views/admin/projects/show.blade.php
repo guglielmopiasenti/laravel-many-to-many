@@ -11,7 +11,7 @@
         <div class="card p-3">
             <p>{{ $project->description }}</p>
             <div><strong>Type:</strong> {{ $project->type?->label }}</div>
-            <div><strong>Technologies:</strong> {{ $project->technologies }}</div>
+            {{-- <div><strong>Technologies:</strong> {{ $project->technologies }}</div> --}}
             <div class="d-flex align-items-center justify-content-between my-5">
                 <div class="d-flex gap-3">
                     <div>
