@@ -49,7 +49,8 @@
                                         id="type" name="type_id">
                                         <option value="">None</option>
                                         @foreach ($types as $type)
-                                            <option @if(old('type_id') == $type->id) selected @endif value="{{ $type->id }}">{{ $type->label }}</option>
+                                            <option @if (old('type_id') == $type->id) selected @endif
+                                                value="{{ $type->id }}">{{ $type->label }}</option>
                                         @endforeach
                                     </select>
                                     @error('type_id')
@@ -58,13 +59,12 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="technologies" class="form-label">Technologies</label>
-                                <input type="text"
-                                    class="form-control @error('technologies') is-invalid @elseif(old('technologies')) is-valid @enderror"
-                                    id="technologies" name="technologies" value="{{ old('technologies') }}" required>
-                                @error('technologies')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                @foreach ($technologies as $technology)
+                                <div class="form-check form-check-inline my-3">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">{{$technology->label}}</label>
+                                </div>
+                                    @endforeach
                             </div>
                             <div class="mb-3 d-flex gap-2 align-items-end">
                                 <div class="col-11">
