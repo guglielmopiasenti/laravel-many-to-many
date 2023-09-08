@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use App\Models\Type;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -130,6 +131,10 @@ class ProjectController extends Controller
         }
 
         $project->update($validated);
+
+        if (!Arr::exist($validated, 'technologies') && count($project->technologies)) $project->technologies()->detach();
+        elseif(Arr::exists($project, 'technologies')) $project->technologies()->sync($validated['technologies']);
+
         return redirect()->route('admin.projects.index')
             ->with('message', 'Project updated successfully')
             ->with('type', 'success');
