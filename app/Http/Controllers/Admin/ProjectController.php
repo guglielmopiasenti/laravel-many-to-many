@@ -39,7 +39,7 @@ class ProjectController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'technologies' => 'required|string',
+            'technologies' => 'nullable|exists:technologies,id',
             'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,bmp',
             'is_featured' => 'nullable|boolean',
             'github_url' => 'required|url',
@@ -64,6 +64,11 @@ class ProjectController extends Controller
         }
 
         $project = Project::create($validated);
+
+        if (array_key_exists('technologies', $validated)) {
+            $project->tags()->attach($validated['technologies']);
+        }
+
         return redirect()->route('admin.projects.index')
             ->with('message', 'Project created successfully')
             ->with('type', 'success');
@@ -84,7 +89,8 @@ class ProjectController extends Controller
     {
         $types = Type::all();
         $technologies = Technology::all();
-        return view('admin.projects.edit', compact('project', 'types', 'tecnologies'));
+        $project_technologies_ids = $project->technologies->pluck('id')->toArray();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies', 'project_technologies_ids'));
     }
 
     /**
@@ -95,7 +101,7 @@ class ProjectController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'technologies' => 'required|string',
+            'technologies' => 'nullable|exists:technologies,id',
             'screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,bmp',
             'is_featured' => 'nullable|boolean',
             'github_url' => 'required|url',
@@ -137,6 +143,8 @@ class ProjectController extends Controller
         // Save the project to the session before deleting it
         session()->put('deleted_project', $project);
 
+        if (count($project->technologies)) $project->technologies()->detach();
+
         // Delete the screenshot if it exists
         if ($project->screenshot) {
             Storage::disk('public')->delete($project->screenshot);
@@ -148,6 +156,7 @@ class ProjectController extends Controller
             ->with('toast-message', 'Project deleted successfully')
             ->with('type', 'success')
             ->with('show_toast', true);
+
     }
 
     public function restore(string $id)

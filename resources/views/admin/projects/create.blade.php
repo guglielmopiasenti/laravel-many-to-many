@@ -60,11 +60,16 @@
                             </div>
                             <div class="mb-3">
                                 @foreach ($technologies as $technology)
-                                <div class="form-check form-check-inline my-3">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1">{{$technology->label}}</label>
-                                </div>
-                                    @endforeach
+                                    <div class="form-check form-check-inline my-3">
+                                        <input class="form-check-input" type="checkbox" id="tech-{{ $technology->id }}"
+                                            value="{{ $technology->id }}">
+                                        <label class="form-check-label" for="tech-{{ $technology->id }}"
+                                            name="technologies[]">{{ $technology->label }}</label>
+                                    </div>
+                                    @error('technologies')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                @endforeach
                             </div>
                             <div class="mb-3 d-flex gap-2 align-items-end">
                                 <div class="col-11">

@@ -43,7 +43,8 @@
                                         id="type" name="type_id">
                                         <option value="">None</option>
                                         @foreach ($types as $type)
-                                            <option @if(old('type_id') == $type->id) selected @endif value="{{ $type->id }}">{{ $type->label }}</option>
+                                            <option @if (old('type_id') == $type->id) selected @endif
+                                                value="{{ $type->id }}">{{ $type->label }}</option>
                                         @endforeach
                                     </select>
                                     @error('type_id')
@@ -52,9 +53,18 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="technologies" class="form-label">Technologies</label>
-                                <input type="text" class="form-control" id="technologies" name="technologies"
-                                    value="{{ old('technologies', $project->technologies) }}" required>
+                                @foreach ($technologies as $technology)
+                                    <div class="form-check form-check-inline my-3">
+                                        <input class="form-check-input" type="checkbox"
+                                            @if (in_array($technology->id, old('technologies', $project_technology_ids ?? []))) checked @endif id="tech-{{ $technology->id }}"
+                                            value="{{ $technology->id }} name="technologies[]">
+                                        <label class="form-check-label"
+                                            for="tech-{{ $technology->id }}">{{ $technology->label }}</label>
+                                    </div>
+                                    @error('technologies')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                @endforeach
                             </div>
                             <div class="mb-3">
                                 <label for="screenshot" class="form-label">Screenshot</label>
