@@ -132,7 +132,7 @@ class ProjectController extends Controller
 
         $project->update($validated);
 
-        if (!Arr::exist($validated, 'technologies') && count($project->technologies)) $project->technologies()->detach();
+        if (!Arr::exists($validated, 'technologies') && count($project->technologies)) $project->technologies()->detach();
         elseif(Arr::exists($project, 'technologies')) $project->technologies()->sync($validated['technologies']);
 
         return redirect()->route('admin.projects.index')
