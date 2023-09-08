@@ -20,7 +20,6 @@ class ProjectSeeder extends Seeder
             $project->github_url = url('https://github.com/'); 
             $project->screenshot_path = $faker->imageUrl(640, 480, 'animals', true);
             $project->description = $faker->paragraph();
-            $project->technologies = $faker->currencyCode(); 
             $project->is_featured = $faker->boolean();
             $project->save();
         }
