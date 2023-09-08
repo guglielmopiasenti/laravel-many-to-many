@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('github_url'); // GitHub URL
             $table->string('screenshot_path')->nullable(); // Screenshot File Path
             $table->text('description')->nullable(); // Project Description
-            $table->string('technologies')->nullable(); // Technologies used
             $table->boolean('is_featured')->default(false); // Flag to identify if the project should be highlighted
             $table->timestamps();
             $table->softDeletes();
