@@ -8,6 +8,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-header">
+                        <!-- Title of the Page -->
                         Create Project
                     </div>
                     <div class="card-body">
@@ -15,6 +16,7 @@
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
+                                    <!-- Loop through and display each validation error -->
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
@@ -22,6 +24,7 @@
                             </div>
                         @endif
 
+                        <!-- Project Creation Form -->
                         <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
@@ -48,6 +51,7 @@
                                         @error('type_id', $project->type_id) is-invalid @elseif(old('type_id')) is-valid @enderror
                                         id="type" name="type_id">
                                         <option value="">None</option>
+                                        <!-- Loop through project types and populate the dropdown -->
                                         @foreach ($types as $type)
                                             <option @if (old('type_id') == $type->id) selected @endif
                                                 value="{{ $type->id }}">{{ $type->label }}</option>
@@ -59,6 +63,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <!-- Checkboxes for Technologies -->
                                 @foreach ($technologies as $technology)
                                     <div class="form-check form-check-inline my-3">
                                         <input class="form-check-input" type="checkbox" id="tech-{{ $technology->id }}"
@@ -77,11 +82,13 @@
                                     <input type="file" class="form-control" id="screenshot" name="screenshot">
                                 </div>
                                 <div class="col-1">
+                                    <!-- Image Preview -->
                                     <img src="{{ isset($project) && $project->screenshot_path ? asset('storage/' . $project->screenshot_path) : 'https://marcolanci.it/utils/placeholder.jpg' }}"
                                         alt="preview" class="img-fluid" id="img-preview">
                                 </div>
                             </div>
                             <div class="mb-3 form-check">
+                                <!-- Checkbox for Is Featured -->
                                 <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured"
                                     {{ old('is_featured') ? 'checked' : '' }}>
                                 <label class="form-check-label" for="is_featured">Is Featured?</label>
@@ -103,7 +110,9 @@
         </div>
     </div>
 @endsection
+
 @section('scripts')
+    <!-- JavaScript for Image Preview -->
     <script>
         const placeholder = 'https://marcolanci.it/utils/placeholder.jpg';
         const imageField = document.getElementById('screenshot');
